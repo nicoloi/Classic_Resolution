@@ -55,8 +55,6 @@ public class FormulaListenerImplementation extends FormulaExpressionBaseListener
                     return;
             }
         }
-
-
     }
 
     /**

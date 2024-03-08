@@ -1,12 +1,8 @@
 import cnf.ClauseSet;
 import formula.*;
 import resolution.Resolution;
-
 import java.util.Scanner;
-import org.antlr.v4.runtime.*;
-import antlr4.FormulaExpressionLexer;
-import antlr4.FormulaExpressionParser;
-import antlr4.FormulaListenerImplementation;
+import antlr4.ParseFormula;
 
 /**
  * 
@@ -25,24 +21,10 @@ public class App {
         String formulaStr = sc.nextLine();
         sc.close();
 
-        CharStream input = CharStreams.fromString(formulaStr);
-        FormulaExpressionLexer lexer = new FormulaExpressionLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        FormulaExpressionParser parser = new FormulaExpressionParser(tokens);
+        Formula f = ParseFormula.parse(formulaStr);
 
-        //create listener
-        FormulaListenerImplementation listener = new FormulaListenerImplementation();
-
-        //adds the listener to the parser
-        parser.addParseListener(listener);
-
-        Formula f = null;
-        try {
-            //analyze the input and get the corresponding formula
-            parser.start();
-            f = listener.getFormula();
-        } catch (Exception e) {
-            System.out.println("\nYour formula in input is not valid");
+        if (f == null) {
+            System.out.println("\nYour formula in input is not valid.");
             return;
         }
 
