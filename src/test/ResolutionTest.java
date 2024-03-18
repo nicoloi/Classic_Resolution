@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import java.io.FileReader;
+import java.io.IOException;
 import org.junit.*;
 import antlr4.ParseFormula;
+import connective.Connective;
 import formula.*;
 import resolution.Resolution;
 
@@ -13,186 +16,364 @@ import resolution.Resolution;
 public class ResolutionTest {
 
     @Test
-    public void testSat1() {
-        String sat1 = "~(c -> ~(a & b))";
+    public void testTaut1() {
+        
+        String taut1 = readFile("taut1.txt");  // a | ~a
 
-        Formula f = ParseFormula.parse(sat1);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (taut1 == null) {
+            fail("The file doesn't exist");
         }
 
-        assertTrue(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(taut1);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testSat2() {
-        String sat2 = "((a & b) -> (c | ~d)) & ((a | c) & ~(b -> d))";
+    public void testTaut2() {
+        
+        String taut2 = readFile("taut2.txt"); // Modus ponens
 
-        Formula f = ParseFormula.parse(sat2);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (taut2 == null) {
+            fail("The file doesn't exist");
         }
 
-        assertTrue(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(taut2);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testSat3() {
-        String sat3 = "(~p & ~q) & (~r | ~(p | ~(~r -> q)))";
+    public void testTaut3() {
+        
+        String taut3 = readFile("taut3.txt"); // Contraposition
 
-        Formula f = ParseFormula.parse(sat3);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (taut3 == null) {
+            fail("The file doesn't exist");
         }
 
-        assertTrue(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(taut3);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testSat4() {
-        String sat4 = "~(a | b) <-> (b & ~c)";
+    public void testTaut4() {
+        
+        String taut4 = readFile("taut4.txt"); // Material implication
 
-        Formula f = ParseFormula.parse(sat4);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (taut4 == null) {
+            fail("The file doesn't exist");
         }
 
-        assertTrue(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(taut4);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testSat5() {
-        String sat5 = "((a & b) -> (c | ~d)) | a";
+    public void testTaut5() {
+        
+        String taut5 = readFile("taut5.txt"); // Modus tollens
 
-        Formula f = ParseFormula.parse(sat5);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (taut5 == null) {
+            fail("The file doesn't exist");
         }
 
-        assertTrue(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(taut5);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testSat6() {
-        String sat6 = "(a -> b) <-> (~b -> ~a)";
+    public void testTaut6() {
+        
+        String taut6 = readFile("taut6.txt"); // De Morgan laws
 
-        Formula f = ParseFormula.parse(sat6);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (taut6 == null) {
+            fail("The file doesn't exist");
         }
 
-        assertTrue(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(taut6);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testSat7() {
-        String sat7 = "~(a & ~b) <-> (~a | b)";
+    public void testTaut7() {
+        
+        String taut7 = readFile("taut7.txt"); //absorption law
 
-        Formula f = ParseFormula.parse(sat7);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (taut7 == null) {
+            fail("The file doesn't exist");
         }
 
-        assertTrue(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(taut7);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testUnsat1() {
-        String unsat1 = "((a & b) -> (c | ~d)) & ((a | c) & ~(b -> d)) & d";
+    public void testTaut8() {
+        
+        String taut8 = readFile("taut8.txt"); //Transitive property of implication
 
-        Formula f = ParseFormula.parse(unsat1);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (taut8 == null) {
+            fail("The file doesn't exist");
         }
 
-        assertFalse(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(taut8);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testUnsat2() {
-        String unsat2 = "(a -> b) & a & ~b";
+    public void testTaut9() {
+        
+        String taut9 = readFile("taut9.txt"); //Distributive property
 
-        Formula f = ParseFormula.parse(unsat2);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (taut9 == null) {
+            fail("The file doesn't exist");
         }
 
-        assertFalse(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(taut9);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+    }
+
+    @Test
+    public void testTaut10() {
+        
+        String taut10 = readFile("taut10.txt"); // Peirce law
+
+        if (taut10 == null) {
+            fail("The file doesn't exist");
+        }
+
+        Formula f = ParseFormula.parse(taut10);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+    }
+
+    @Test
+    public void testTaut11() {
+        
+        String taut10 = readFile("taut11.txt"); // (a -> b) | (b -> a)
+
+        if (taut10 == null) {
+            fail("The file doesn't exist");
+        }
+
+        Formula f = ParseFormula.parse(taut10);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
 
     @Test
-    public void testUnsat3() {
-        String unsat3 = "~(a | ~a)";
+    public void testNonTaut1() {
+        
+        String nt = readFile("non-taut1.txt");
 
-        Formula f = ParseFormula.parse(unsat3);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (nt == null) {
+            fail("The file doesn't exist");
         }
 
-        assertFalse(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(nt);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testUnsat4() {
-        String unsat4 = "~(((a & b) -> (c | ~d)) | a)";
+    public void testNonTaut2() {
+        
+        String nt = readFile("non-taut2.txt");
 
-        Formula f = ParseFormula.parse(unsat4);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (nt == null) {
+            fail("The file doesn't exist");
         }
 
-        assertFalse(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(nt);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testUnsat5() {
-        String unsat5 = "~((a -> b) <-> (~b -> ~a))";
+    public void testNonTaut3() {
+        
+        String nt = readFile("non-taut3.txt");
 
-        Formula f = ParseFormula.parse(unsat5);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (nt == null) {
+            fail("The file doesn't exist");
         }
 
-        assertFalse(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(nt);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testUnsat6() {
-        String unsat6 = "(a | b) & ~a & ~b";
+    public void testNonTaut4() {
+        
+        String nt = readFile("non-taut4.txt");
 
-        Formula f = ParseFormula.parse(unsat6);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (nt == null) {
+            fail("The file doesn't exist");
         }
 
-        assertFalse(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(nt);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
-    public void testUnsat7() {
-        String unsat7 = "~(~(a & ~b) <-> (~a | b))";
+    public void testNonTaut5() {
+        
+        String nt = readFile("non-taut5.txt");
 
-        Formula f = ParseFormula.parse(unsat7);
-
-        if (f == null) {
-            fail("The input formula is not valid");
+        if (nt == null) {
+            fail("The file doesn't exist");
         }
 
-        assertFalse(Resolution.isSatisfiable(f.toCnf(), false));
+        Formula f = ParseFormula.parse(nt);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
+    }
+    
+    @Test
+    public void testNonTaut6() {
+        
+        String nt = readFile("non-taut6.txt");
+
+        if (nt == null) {
+            fail("The file doesn't exist");
+        }
+
+        Formula f = ParseFormula.parse(nt);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
+    }
+
+    @Test
+    public void testNonTaut7() {
+        
+        String nt = readFile("non-taut7.txt");
+
+        if (nt == null) {
+            fail("The file doesn't exist");
+        }
+
+        Formula f = ParseFormula.parse(nt);
+
+        if (f == null) {
+            fail("Parsing error of formula f");
+        }
+
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
     }
 
     @Test
@@ -202,5 +383,30 @@ public class ResolutionTest {
         Formula f = ParseFormula.parse(invalid);
 
         assertEquals(f, null);
+    }
+
+    /**
+     * 
+     * @param fileName the name of the text file to read.
+     * @return the string containing the text of the read file.
+     */
+    public String readFile(String fileName) {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            FileReader file = new FileReader("./src/test/" + fileName);
+            int data = file.read();
+
+            while (data != -1) {
+                sb.append( (char) data );
+                data = file.read();
+            }
+
+            file.close();
+        } catch (IOException e) {
+            return null;
+        }
+        
+        return sb.toString();
     }
 }

@@ -130,7 +130,7 @@ public class CompoundFormula extends Formula {
                 Formula f1 = this.getLeftSubformula();
 
                 if (f1 instanceof AtomicFormula) {
-                    Literal l1 = ( (AtomicFormula)f1).toLiteral();
+                    Literal l1 = ((AtomicFormula)f1).toLiteral();
                     Literal oppL1 = l1.getOpposite();
 
                     return new ClauseSet( new Clause(oppL1) );    
@@ -147,8 +147,8 @@ public class CompoundFormula extends Formula {
                         //De Morgan on ~(g1 | g2)
                         Formula g1 = cf1.getLeftSubformula();   
                         Formula g2 = cf1.getRightSubformula();
-                        Formula g  = new CompoundFormula( Connective.AND, 
-                            new CompoundFormula (Connective.NOT, g1), 
+                        Formula g  = new CompoundFormula(Connective.AND, 
+                            new CompoundFormula(Connective.NOT, g1), 
                             new CompoundFormula(Connective.NOT, g2));  // ~g1 & ~g2
                         
                         return g.toCnf();
@@ -200,9 +200,8 @@ public class CompoundFormula extends Formula {
                 Formula g2 = this.getRightSubformula();
                 ClauseSet cs1 = g1.toCnf();
                 ClauseSet cs2 = g2.toCnf();  
-                cs1.union(cs2);
 
-                return cs1;
+                return cs1.union(cs2);
             case OR:
                 g1 = this.getLeftSubformula();
                 g2 = this.getRightSubformula();
@@ -213,7 +212,7 @@ public class CompoundFormula extends Formula {
 
                 for (Clause c1 : cs1) {
                     for (Clause c2 : cs2) {
-                        csResult.add(Clause.union(c1, c2));
+                        csResult.add(c1.union(c2));
                     }
                 }
 

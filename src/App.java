@@ -1,18 +1,18 @@
 import cnf.ClauseSet;
+import connective.Connective;
 import formula.*;
 import resolution.Resolution;
 import java.util.Scanner;
 import antlr4.ParseFormula;
 
 /**
- * 
- * this class is used to verify the satisfiability 
- * of a formula taken as input (stdin).
+ * this class is used to check whether a formula taken
+ * as input is a tautology or not.
  * 
  * The main method prints to stdout: 
- * - the input formula.
- * - the corresponding clause set (cnf).
- * - and finally prints whether it is satisfiable or not.
+ * - the input formula f.
+ * - the corresponding clause set of ~f.
+ * - and finally prints whether f is a tautology or not
  */
 public class App {
 
@@ -24,23 +24,31 @@ public class App {
         Formula f = ParseFormula.parse(formulaStr);
 
         if (f == null) {
-            System.out.println("\nYour formula in input is not valid.");
+            System.out.println("\nYour formula in input is not a well-formed formula");
             return;
         }
 
         System.out.println("\nYour formula in input:");
         System.out.println(f);
 
-        ClauseSet cnf = f.toCnf();
+        //negate formula f
+        Formula not_f = new CompoundFormula(Connective.NOT, f);
+
+        ClauseSet cnf = not_f.toCnf();
             
-        System.out.println("\nThe corresponding clause set is:");
+        System.out.println("\nThe corresponding clause set of the negation is:");
         System.out.println(cnf);
         System.out.println();
 
-        if (Resolution.isSatisfiable(cnf, false)) {
-            System.out.println("SATISFIABLE");
+        boolean step = false;
+        if (args.length != 0 && args[0].equals("-v")) {
+            step = true;
+        }
+
+        if (Resolution.isSatisfiable(cnf, step)) {
+            System.out.println("The formula is not a tautology");
         } else {
-            System.out.println("UNSATISFIABLE");
+            System.out.println("The formula is a tautology");
         }
     }
 }

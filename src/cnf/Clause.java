@@ -57,26 +57,6 @@ public class Clause implements Iterable<Literal> {
         count++;
     }
 
-    //STATIC METHODS
-
-    /**
-     * Unites the specified clauses. Use this method to avoid side effects
-     *   on specified clauses
-     * 
-     * @param c1 the first clause.
-     * @param c2 the second clause.
-     * @return the clause that represents the union of the specified clauses.
-     */
-    public static Clause union(Clause c1, Clause c2) {
-        Clause result = new Clause();
-
-        result.union(c1);
-        result.union(c2);
-
-        return result;
-    }
-    
-
     //METHODS
 
     /**
@@ -141,16 +121,27 @@ public class Clause implements Iterable<Literal> {
     }
 
     /**
-     * unite this clause with the specified clause.
+     * merges this clause with the specified clause,
+     * applying "union" operation of the set.
      * 
-     * @param c the clause to be united with this clause.
+     * @param c the clause to be merged with this clause.
+     * @return the clause which represents the union of this clause
+     *         with the specified parameter.
      */
-    public void union(Clause c) {
+    public Clause union(Clause c) {
         Objects.requireNonNull(c);
 
-        for (Literal l : c.literals) {
-            this.literals.add(l);
+        Clause result = new Clause();
+
+        for (Literal l : this.literals) {
+            result.add(l);
         }
+
+        for (Literal l : c.literals) {
+            result.add(l);
+        }
+
+        return result;
     }
 
 

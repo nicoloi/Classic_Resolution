@@ -168,7 +168,7 @@ public class Resolution {
      *         deleting the pair of literals
      */
     private static Clause resolRule(Clause c1, Clause c2, Literal lit) {
-        Clause result = Clause.union(c1, c2);
+        Clause result = c1.union(c2);
 
         result.remove(lit);
         result.remove(lit.getOpposite());

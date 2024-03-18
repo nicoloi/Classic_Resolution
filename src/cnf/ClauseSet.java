@@ -98,17 +98,27 @@ public class ClauseSet implements Iterable<Clause> {
     }
 
     /**
-     * merges this clause set with the specified clauseset,
+     * merges this clauseset with the specified clauseset,
      * applying "union" operation of the set.
      * 
-     * @param cset the clauseset to be merged with this clause set.
+     * @param cset the clauseset to be merged with this clauseset.
+     * @return the clauseset which represents the union of this 
+     *         clauseset with the specified parameter.
      */
-    public void union(ClauseSet cset) {
+    public ClauseSet union(ClauseSet cset) {
         Objects.requireNonNull(cset);
 
-        for (Clause c : cset.clauses) {
-            this.clauses.add(c);
+        ClauseSet result = new ClauseSet();
+
+        for (Clause c : this.clauses) {
+            result.add(c);
         }
+
+        for (Clause c : cset.clauses) {
+            result.add(c);
+        }
+
+        return result;
     }
 
     /**
