@@ -4,7 +4,7 @@ import java.util.Stack;
 import antlr4.FormulaExpressionParser.Atomic_formulaContext;
 import antlr4.FormulaExpressionParser.FormulaContext;
 import formula.*;
-import connective.*;
+import static connective.Connective.*;
 
 /**
  * this class extends the FormulaExpression base listener,
@@ -27,7 +27,7 @@ public class FormulaListenerImplementation extends FormulaExpressionBaseListener
 
         if (ctx.unary_connective() != null) {
             Formula f = stack.pop();
-            Formula not_f = new CompoundFormula(Connective.NOT, f);
+            Formula not_f = new CompoundFormula(NOT, f);
             stack.push(not_f);
 
         } else if (ctx.binary_connective() != null) {
@@ -38,19 +38,19 @@ public class FormulaListenerImplementation extends FormulaExpressionBaseListener
 
             switch (conn) {
                 case "&":
-                    CompoundFormula and = new CompoundFormula(Connective.AND, left, right);
+                    CompoundFormula and = new CompoundFormula(AND, left, right);
                     stack.push(and);
                     return;
                 case "|":
-                    CompoundFormula or = new CompoundFormula(Connective.OR, left, right);
+                    CompoundFormula or = new CompoundFormula(OR, left, right);
                     stack.push(or);
                     return;
                 case "->":
-                    CompoundFormula impl = new CompoundFormula(Connective.IMPLIES, left, right);
+                    CompoundFormula impl = new CompoundFormula(IMPLIES, left, right);
                     stack.push(impl);
                     return;
                 case "<->":
-                    CompoundFormula iff = new CompoundFormula(Connective.IFF, left, right);
+                    CompoundFormula iff = new CompoundFormula(IFF, left, right);
                     stack.push(iff);
                     return;
             }

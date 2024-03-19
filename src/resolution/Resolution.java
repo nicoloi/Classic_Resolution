@@ -18,21 +18,27 @@ public class Resolution {
 
     private static Map<Integer, Set<Integer>> visited;
     private static List<Step> trace;
+    private static boolean enableSteps = false;
 
     /**
-     * This static method checks whether a set of clauses
-     * is satisfiable or not.
-     * 
-     * 
-     * @param s the set of clauses to consider for the resolution method.
-     * @param enableSteps the boolean variable used to indicate whether 
-     *        or not to print the list of steps applied by the resolution method.
-     * 
-     * @return true, if s is satisfiable, false otherwise.
-     * @throws NullPointerException if s is null.
-     * @throws IllegalArgumentException if s is empty.
+     * Checks whether a set of clauses is satisfiable using the resolution method.
+     *
+     * This method determines whether a given set of clauses is satisfiable by applying
+     * the resolution method. The method analyzes the given set of clauses
+     * to find a contradiction, indicating that the set of clauses is unsatisfiable.
+     * If no contradiction is found, the set of clauses is satisfiable.
+     *
+     * If tracing of resolution steps is enabled, the method prints a trace of the steps
+     * performed by the resolution method. Tracing can be enabled using the
+     * {@link #setEnableSteps(boolean)} method.
+     *
+     * @param s the set of clauses to be analyzed for satisfiability.
+     * @return true if the set of clauses is satisfiable, false otherwise.
+     * @throws NullPointerException if the input clause set is null.
+     * @throws IllegalArgumentException if the input clause set is empty.
+     * @see #setEnableSteps(boolean)
      */
-    public static boolean isSatisfiable(ClauseSet s, boolean enableSteps) {
+    public static boolean isSatisfiable(ClauseSet s) {
 
         Objects.requireNonNull(s);
         if (s.isEmpty()) throw new IllegalArgumentException("the clause set in input is empty");
@@ -78,9 +84,12 @@ public class Resolution {
 
                         Clause newClause = resolRule(c1, c2, complemLit);
 
-                        //create a new step and insert the clauses and literal
-                        Step step = new Step(c1, c2, newClause, complemLit);
-                        trace.add(step);
+                        Step step = null;
+                        if (enableSteps) {
+                            //create a new step and insert it into the trace list.
+                            step = new Step(c1, c2, newClause, complemLit);
+                            trace.add(step);
+                        }
 
                         /*
                         * if the resolving clause is empty, then we have found a contradiction 
@@ -92,9 +101,11 @@ public class Resolution {
                         } 
 
                         if (newClause.isTautology()) {
-                            step.setTautology();
+                            if (enableSteps)
+                                step.setTautology();
                         } else if (listCl.contains(newClause)) {
-                            step.setAlreadyPresent();
+                            if (enableSteps)
+                                step.setAlreadyPresent();
                         } else {
                             visited.put(newClause.getIndex(), new HashSet<>());
                             listCl.add(newClause);
@@ -111,6 +122,21 @@ public class Resolution {
          * the contradiction is not found, then s is satisfiable
          */
         return true;
+    }
+
+    /**
+     * Enables or disables the tracing of resolution steps.
+     *
+     * This method enables or disables the tracing of resolution steps performed
+     * by the {@link #isSatisfiable(ClauseSet)} method. When tracing is enabled, the
+     * resolution steps will be printed to the Stdout. When tracing is disabled,
+     * no steps will be printed.
+     *
+     * @param enableStepsValue true to enable tracing of resolution steps,
+     *                         false to disable it.
+     */
+    public static void setEnableSteps(boolean enableStepsValue) {
+        enableSteps = enableStepsValue;
     }
 
     /**

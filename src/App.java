@@ -1,18 +1,21 @@
 import cnf.ClauseSet;
-import connective.Connective;
+import static connective.Connective.*;
 import formula.*;
 import resolution.Resolution;
 import java.util.Scanner;
 import antlr4.ParseFormula;
 
 /**
- * this class is used to check whether a formula taken
+ * this class is used to check whether a formula reads
  * as input is a tautology or not.
  * 
  * The main method prints to stdout: 
  * - the input formula f.
- * - the corresponding clause set of ~f.
- * - and finally prints whether f is a tautology or not
+ * - the corresponding clause set of its negation.
+ * - if the command-line argument "-v" is provided, the verbose mode is enabled,
+ *      which prints the trace of resolution steps performed by the "isSatisfiable"
+ *      method. Otherwise, the verbose mode is disabled by default.
+ * - finally prints to Stdout whether f is a tautology or not
  */
 public class App {
 
@@ -32,7 +35,7 @@ public class App {
         System.out.println(f);
 
         //negate formula f
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
         ClauseSet cnf = not_f.toCnf();
             
@@ -40,12 +43,11 @@ public class App {
         System.out.println(cnf);
         System.out.println();
 
-        boolean step = false;
         if (args.length != 0 && args[0].equals("-v")) {
-            step = true;
+            Resolution.setEnableSteps(true);
         }
 
-        if (Resolution.isSatisfiable(cnf, step)) {
+        if (Resolution.isSatisfiable(cnf)) {
             System.out.println("The formula is not a tautology");
         } else {
             System.out.println("The formula is a tautology");

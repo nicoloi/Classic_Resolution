@@ -1,6 +1,7 @@
 package formula;
 
 import connective.Connective;
+import static connective.Connective.*;
 import cnf.*;
 import literal.Literal;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class CompoundFormula extends Formula {
      */
     public CompoundFormula(Connective mainConnective, Formula f1, Formula f2) {
         
-        if (mainConnective == Connective.NOT) {
+        if (mainConnective == NOT) {
             throw new IllegalArgumentException("The 'NOT' connective is unary");
         }
 
@@ -54,7 +55,7 @@ public class CompoundFormula extends Formula {
      */
     public CompoundFormula(Connective mainConnective, Formula f) {
 
-        if (mainConnective != Connective.NOT) {
+        if (mainConnective != NOT) {
             throw new IllegalArgumentException("You must call this constructor only for NOT connective.");
         }
 
@@ -90,7 +91,7 @@ public class CompoundFormula extends Formula {
      * @throws UnsupportedOperationException if the main connective is NOT.
      */
     public Formula getRightSubformula() {
-        if (this.mainConnective == Connective.NOT) {
+        if (this.mainConnective == NOT) {
             throw new UnsupportedOperationException("this method is not supported for NOT connective");
         }
 
@@ -111,7 +112,7 @@ public class CompoundFormula extends Formula {
 
         StringBuilder res = new StringBuilder();
 
-        if (this.mainConnective == Connective.NOT) {
+        if (this.mainConnective == NOT) {
             res.append("~" + subFormulas[0].toString());
         } else {
             res.append("(" + subFormulas[0].toString() + " " + this.mainConnective.toString() 
@@ -138,63 +139,63 @@ public class CompoundFormula extends Formula {
                     CompoundFormula cf1 = (CompoundFormula) f1;
                     Connective mainC = cf1.getMainConnective();
 
-                    if(mainC == Connective.NOT) {
+                    if(mainC == NOT) {
                         //double negation
                         Formula g1 = cf1.getLeftSubformula();
 
                         return g1.toCnf();
-                    } else if(mainC == Connective.OR){ 
+                    } else if(mainC == OR){ 
                         //De Morgan on ~(g1 | g2)
                         Formula g1 = cf1.getLeftSubformula();   
                         Formula g2 = cf1.getRightSubformula();
-                        Formula g  = new CompoundFormula(Connective.AND, 
-                            new CompoundFormula(Connective.NOT, g1), 
-                            new CompoundFormula(Connective.NOT, g2));  // ~g1 & ~g2
+                        Formula g  = new CompoundFormula(AND, 
+                            new CompoundFormula(NOT, g1), 
+                            new CompoundFormula(NOT, g2));  // ~g1 & ~g2
                         
                         return g.toCnf();
-                    } else if (mainC == Connective.AND) {
+                    } else if (mainC == AND) {
                         //De Morgan on ~(g1 & g2)
                         Formula g1 = cf1.getLeftSubformula();   
                         Formula g2 = cf1.getRightSubformula();
-                        Formula g = new CompoundFormula(Connective.OR, 
-                            new CompoundFormula(Connective.NOT, g1), 
-                            new CompoundFormula(Connective.NOT, g2));  // ~g1 | ~g2
+                        Formula g = new CompoundFormula(OR, 
+                            new CompoundFormula(NOT, g1), 
+                            new CompoundFormula(NOT, g2));  // ~g1 | ~g2
                         
                         return g.toCnf();
-                    } else if (mainC == Connective.IMPLIES) {
+                    } else if (mainC == IMPLIES) {
                         // ~(g1 -> g2)
-                        Formula notG1 = new CompoundFormula(Connective.NOT, cf1.getLeftSubformula());
-                        CompoundFormula or = new CompoundFormula(Connective.OR, notG1, cf1.getRightSubformula());
+                        Formula notG1 = new CompoundFormula(NOT, cf1.getLeftSubformula());
+                        CompoundFormula or = new CompoundFormula(OR, notG1, cf1.getRightSubformula());
 
-                        return (new CompoundFormula(Connective.NOT, or)).toCnf();
+                        return (new CompoundFormula(NOT, or)).toCnf();
                     } else {
                         // ~(g1 <-> g2)
-                        Formula notG1 = new CompoundFormula(Connective.NOT, cf1.getLeftSubformula());
-                        Formula notG2 = new CompoundFormula(Connective.NOT, cf1.getRightSubformula());
-                        Formula left = new CompoundFormula(Connective.OR, notG1, cf1.getRightSubformula());
-                        Formula right = new CompoundFormula(Connective.OR, cf1.getLeftSubformula(), notG2);
+                        Formula notG1 = new CompoundFormula(NOT, cf1.getLeftSubformula());
+                        Formula notG2 = new CompoundFormula(NOT, cf1.getRightSubformula());
+                        Formula left = new CompoundFormula(OR, notG1, cf1.getRightSubformula());
+                        Formula right = new CompoundFormula(OR, cf1.getLeftSubformula(), notG2);
 
-                        Formula iff = new CompoundFormula(Connective.AND, left, right);
+                        Formula iff = new CompoundFormula(AND, left, right);
 
-                        return (new CompoundFormula(Connective.NOT, iff)).toCnf();
+                        return (new CompoundFormula(NOT, iff)).toCnf();
                     }
 
                 }
             case IMPLIES:
                 // (g1 -> g2)  ===>  ~g1 | g2
-                Formula notG1 = new CompoundFormula(Connective.NOT, this.getLeftSubformula());
-                CompoundFormula cf = new CompoundFormula(Connective.OR, notG1, 
+                Formula notG1 = new CompoundFormula(NOT, this.getLeftSubformula());
+                CompoundFormula cf = new CompoundFormula(OR, notG1, 
                     this.getRightSubformula());
 
                 return cf.toCnf();
             case IFF:
                 // (g1 <-> g2)  ===>  (~g1 | g2) & (g1 | ~g2)
-                notG1 = new CompoundFormula(Connective.NOT, this.getLeftSubformula());
-                Formula notG2 = new CompoundFormula(Connective.NOT, this.getRightSubformula());
-                Formula left = new CompoundFormula(Connective.OR, notG1, this.getRightSubformula());
-                Formula right = new CompoundFormula(Connective.OR, this.getLeftSubformula(), notG2);
+                notG1 = new CompoundFormula(NOT, this.getLeftSubformula());
+                Formula notG2 = new CompoundFormula(NOT, this.getRightSubformula());
+                Formula left = new CompoundFormula(OR, notG1, this.getRightSubformula());
+                Formula right = new CompoundFormula(OR, this.getLeftSubformula(), notG2);
 
-                return (new CompoundFormula(Connective.AND, left, right)).toCnf();
+                return (new CompoundFormula(AND, left, right)).toCnf();
             case AND:
                 Formula g1 = this.getLeftSubformula();   
                 Formula g2 = this.getRightSubformula();

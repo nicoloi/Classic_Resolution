@@ -8,11 +8,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import org.junit.*;
 import antlr4.ParseFormula;
-import connective.Connective;
+import static connective.Connective.*;
 import formula.*;
 import resolution.Resolution;
 
-
+/**
+ * This class contains JUnit tests to verify the correctness of the Resolution
+ * class. It includes tests for both formulas expected to be tautologies and
+ * those that are not, as well as handling of invalid formulas.
+ * The tests cover various logical properties and laws, ensuring that the resolution
+ * method behaves as expected in different scenarios.
+ * The class also provides a method to read formulas from text files for testing purposes.
+ */
 public class ResolutionTest {
 
     @Test
@@ -30,9 +37,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -50,9 +57,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -70,9 +77,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -90,9 +97,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -110,9 +117,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -130,9 +137,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -150,9 +157,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -170,9 +177,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -190,9 +197,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -210,9 +217,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -230,9 +237,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertFalse(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertFalse(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
 
@@ -251,9 +258,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -271,9 +278,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -291,9 +298,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -311,9 +318,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -331,9 +338,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf()));
     }
     
     @Test
@@ -351,9 +358,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
@@ -371,9 +378,9 @@ public class ResolutionTest {
             fail("Parsing error of formula f");
         }
 
-        Formula not_f = new CompoundFormula(Connective.NOT, f);
+        Formula not_f = new CompoundFormula(NOT, f);
 
-        assertTrue(Resolution.isSatisfiable(not_f.toCnf(), false));
+        assertTrue(Resolution.isSatisfiable(not_f.toCnf()));
     }
 
     @Test
