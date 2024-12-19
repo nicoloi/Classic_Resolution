@@ -1,2 +1,2 @@
-# Classic_Resolution
+# Classical_Resolution
 Implementation of resolution method for classical logic.
